@@ -116,6 +116,6 @@ class SaleesCompiler:
         icg.transform(self.parseTree)
         if fileName:
             with open(fileName+self.fileExtension,"w+") as f:
-                f.write(icg.ic)
-        return icg.ic
+                f.write(icg.intermediate_code)
+        return icg.intermediate_code
     

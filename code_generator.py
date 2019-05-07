@@ -2,14 +2,13 @@ from lark import Lark,Transformer
 class IntermediateCodeGenerator(Transformer):
 
     def __init__(self):
-        self.scope=10000
-        self.regCount=0
+        self.reg_count=0
         self.sym_table={}
-        self.ic=""
+        self.intermediate_code=""
         self.line_count=0
 
     def top_level(self,items):
-        self.ic+=(items[0])
+        self.intermediate_code+=(items[0])
 
     def get_new_line(self):
         lc="L"+str(self.line_count)
@@ -17,8 +16,8 @@ class IntermediateCodeGenerator(Transformer):
         return lc
 
     def get_new_reg(self):
-        reg= "t"+str(self.regCount)
-        self.regCount+=1
+        reg= "t"+str(self.reg_count)
+        self.reg_count+=1
         return reg
 
     def immutable(self,items):
