@@ -6,19 +6,19 @@ a=9
 b=6
 L2:
 t0=x<y
-IFZ t0 Goto L3
+IFZ t0 GOTO L3
 t1=x*2
 x=t1
 t2=x<y
 IFZ t2 GOTO L0
 z=x
-Goto L1
+GOTO L1
 L0:
 z=y
 L1:
 t3=z*z
 z=t3
-Goto L2
+GOTO L2
 L3:
 y=x
 t4=b*a
