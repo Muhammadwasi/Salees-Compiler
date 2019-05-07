@@ -1,4 +1,4 @@
-from salees_parser import SaleesParser
+from salees_compiler import SaleesCompiler
 
 if __name__=='__main__':
     textInput1="""
@@ -32,8 +32,8 @@ if __name__=='__main__':
     }
     y=b*x*y*y||b&&x;
     """
-    myParser=SaleesParser(textInput,'top_level')
-    myParser.parserProgram()
-    #myParser.showParseTree(isPretty=True)
-    myParser.generateIC(fileName="three_addr_code")
+    myCompiler=SaleesCompiler(textInput)
+    myCompiler.parse_program()
+    myCompiler.show_parse_tree(isPretty=True)
+    myCompiler.generate_intermediate_code(fileName="three_addr_code")
     

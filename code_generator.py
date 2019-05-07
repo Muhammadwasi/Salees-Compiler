@@ -1,5 +1,5 @@
 from lark import Lark,Transformer
-class ICGenerator(Transformer):
+class IntermediateCodeGenerator(Transformer):
 
     def __init__(self):
         self.scope=10000
@@ -11,12 +11,12 @@ class ICGenerator(Transformer):
     def top_level(self,items):
         self.ic+=(items[0])
 
-    def getNewLine(self):
+    def get_new_line(self):
         lc="L"+str(self.line_count)
         self.line_count+=1
         return lc
 
-    def getNewReg(self):
+    def get_new_reg(self):
         reg= "t"+str(self.regCount)
         self.regCount+=1
         return reg
@@ -33,7 +33,7 @@ class ICGenerator(Transformer):
     
     def mul_expression(self,items):
         if len(items)>2:
-            reg=self.getNewReg()
+            reg=self.get_new_reg()
             if len(items[0])==2:
                 code=items[0][1]+"\n"+reg+"=" +items[0][0] +items[1] +items[2]
             else:
@@ -44,7 +44,7 @@ class ICGenerator(Transformer):
 
     def sum_expression(self,items):
         if len(items)>2:
-            reg=self.getNewReg()
+            reg=self.get_new_reg()
             if len(items[0])==2 and len(items[2])==2:
                 code=items[0][1]+items[2][1]+"\n"+reg+"=" +items[0][0] +items[1] +items[2][0]
 
@@ -63,7 +63,7 @@ class ICGenerator(Transformer):
 
     def rel_expression(self,items):
         if len(items)>2:
-            reg=self.getNewReg()
+            reg=self.get_new_reg()
             if len(items[0])==2 and len(items[2])==2:
                 code=items[0][1]+items[2][1]+"\n"+reg+"="+items[0][0]+items[1]+items[2][0]
             elif len(items[0])==2:
@@ -79,7 +79,7 @@ class ICGenerator(Transformer):
 
     def unary_rel_expression(self,items):
         if len(items)==2:
-            reg=self.getNewReg()
+            reg=self.get_new_reg()
             if(len(items[1])==2):
                 code=items[1][1]+"\n"+reg+"="+items[0]+items[1][0]
             else:
@@ -90,7 +90,7 @@ class ICGenerator(Transformer):
 
     def and_expression(self,items):
         if len(items)>2:
-            reg=self.getNewReg()
+            reg=self.get_new_reg()
             if len(items[0])==2 and len(items[2])==2:
                 code=items[0][1]+items[2][1]+"\n"+reg+"="+items[0][0]+items[1]+items[2][0]
             elif len(items[0])==2:
@@ -106,7 +106,7 @@ class ICGenerator(Transformer):
 
     def simple_expression(self,items):
         if len(items)>2:
-            reg=self.getNewReg()
+            reg=self.get_new_reg()
             if len(items[0])==2 and len(items[2])==2:
                 code=items[0][1]+items[2][1]+"\n"+reg+"="+items[0][0]+items[1]+items[2][0]
             elif len(items[0])==2:
@@ -171,20 +171,20 @@ class ICGenerator(Transformer):
             return items[0]
     
     def selection_statement(self,items):
-        lc=self.getNewLine()
+        lc=self.get_new_line()
 
         if len(items)==3:
             if items[0]=="if":
                 code=items[1][1]+"\n"+"IFZ " +items[1][0]+ " GOTO "+lc+items[2]+"\n"+lc+":"
         elif len(items)==5:
-            lc1=self.getNewLine()
+            lc1=self.get_new_line()
             code=items[1][1]+"\n"+"IFZ " +items[1][0]+ " GOTO "+lc+items[2]+"\nGoto "+lc1+"\n"+lc+":"+items[4]+"\n"+lc1+":"
 
         return code
 
     def iteration_statement(self,items):
-        lc=self.getNewLine()
-        lc1=self.getNewLine()
+        lc=self.get_new_line()
+        lc1=self.get_new_line()
         if len(items)==3:
             code="\n"+lc+":"+items[1][1]+"\nIFZ "+items[1][0]+" Goto "+lc1+items[2]+"\nGoto "+lc+"\n"+lc1+":"
         return code

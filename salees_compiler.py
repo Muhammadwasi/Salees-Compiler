@@ -1,14 +1,15 @@
 from lark import Lark,Transformer 
-from code_generator import ICGenerator
-class SaleesParser:
-    def __init__(self, programText,starter):
+from code_generator import IntermediateCodeGenerator
+class SaleesCompiler:
+    def __init__(self, programText,starter="top_level"):
         self.programText=programText
         self.starter=starter
         self.grammar=None
         self.parseTree=None
-        self.initializeGrammar()
+        self.initialize_grammar()
+        self.fileExtension=".sl"
 
-    def initializeGrammar(self):
+    def initialize_grammar(self):
         self.grammar=Lark(r"""
         
     top_level: statement
@@ -101,20 +102,20 @@ class SaleesParser:
         %ignore WS 
         """,start=self.starter)
 
-    def parserProgram(self):
+    def parse_program(self):
         self.parseTree=self.grammar.parse(self.programText)
     
-    def showParseTree(self,isPretty):
+    def show_parse_tree(self,isPretty):
         if isPretty:
             print self.parseTree.pretty()
         else:
             print self.parseTree
     
-    def generateIC(self,fileName=None):
-        icg=ICGenerator()
+    def generate_intermediate_code(self,fileName=None):
+        icg=IntermediateCodeGenerator()
         icg.transform(self.parseTree)
         if fileName:
-            with open(fileName,"w+") as f:
+            with open(fileName+self.fileExtension,"w+") as f:
                 f.write(icg.ic)
         return icg.ic
     
