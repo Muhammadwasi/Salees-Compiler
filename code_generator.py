@@ -177,7 +177,7 @@ class IntermediateCodeGenerator(Transformer):
                 code=items[1][1]+"\n"+"IFZ " +items[1][0]+ " GOTO "+lc+items[2]+"\n"+lc+":"
         elif len(items)==5:
             lc1=self.get_new_line()
-            code=items[1][1]+"\n"+"IFZ " +items[1][0]+ " GOTO "+lc+items[2]+"\nGoto "+lc1+"\n"+lc+":"+items[4]+"\n"+lc1+":"
+            code=items[1][1]+"\n"+"IFZ " +items[1][0]+ " GOTO "+lc+items[2]+"\nGOTO "+lc1+"\n"+lc+":"+items[4]+"\n"+lc1+":"
 
         return code
 
@@ -185,7 +185,7 @@ class IntermediateCodeGenerator(Transformer):
         lc=self.get_new_line()
         lc1=self.get_new_line()
         if len(items)==3:
-            code="\n"+lc+":"+items[1][1]+"\nIFZ "+items[1][0]+" Goto "+lc1+items[2]+"\nGoto "+lc+"\n"+lc1+":"
+            code="\n"+lc+":"+items[1][1]+"\nIFZ "+items[1][0]+" GOTO "+lc1+items[2]+"\nGOTO "+lc+"\n"+lc1+":"
         return code
 
     def compound_statement(self,items):
